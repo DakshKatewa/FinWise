@@ -1,7 +1,7 @@
 // lib/main.dart
-import 'package:finwise_application/features/pages/auth_pages/login_sign_page.dart';
-import 'package:finwise_application/features/pages/splash_page/splash_screen.dart';
-import 'package:finwise_application/features/pages/unknownpages/error_page.dart';
+import 'package:finwise_application/features/auth/presentation/pages/auth_pages/login_sign_page.dart';
+import 'package:finwise_application/features/splash/presentation/pages/splash_screen.dart';
+import 'package:finwise_application/features/auth/presentation/pages/unknownpages/error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:finwise_application/core/themes/app_colors.dart';
 
