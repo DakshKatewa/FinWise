@@ -46,9 +46,9 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _handleNavigation() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 8));
     if (mounted) {
-      Navigator.pushReplacementNamed(context, '/LoginSignUpPage');
+      Navigator.pushReplacementNamed(context, '/preLoginPage');
     }
   }
 

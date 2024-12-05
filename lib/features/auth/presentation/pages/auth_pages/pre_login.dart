@@ -3,8 +3,8 @@ import 'package:finwise_application/core/constants/asset_constants.dart';
 import 'package:finwise_application/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class LoginSignUpPage extends StatelessWidget {
-  const LoginSignUpPage({super.key});
+class PreLoginPage extends StatelessWidget {
+  const PreLoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +37,7 @@ class LoginSignUpPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Your onPressed function here
+                Navigator.pushNamed(context, '/loginPage');
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
