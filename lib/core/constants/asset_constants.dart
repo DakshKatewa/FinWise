@@ -10,4 +10,10 @@ class AssetConstants {
   static const String medicine = 'assets/images/medicine.png';
   static const String rent = 'assets/images/rent.png';
   static const String travel = 'assets/images/travel.png';
+  static const String salary = 'assets/images/salary.png';
+  static const String investment = 'assets/images/investment.png';
+  static const String parttime = 'assets/images/part_time.png';
+  static const String bonus = 'assets/images/bonus.png';
+  static const String settings = 'assets/images/settings.png';
+  static const String other = 'assets/images/other.png';
 }
