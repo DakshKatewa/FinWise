@@ -43,23 +43,42 @@ class ExpenseAddPage extends StatelessWidget {
         ),
         itemCount: iconData.length,
         itemBuilder: (context, index) {
-          return ElevatedButton(
-            onPressed: () {
-              _showInputDialog(context, isExpense, iconData[index]['name']!,
-                  iconData[index]['path']!);
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+          return Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Center both the icon and text
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  _showInputDialog(
+                    context,
+                    isExpense,
+                    iconData[index]['name']!,
+                    iconData[index]['path']!,
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Image.asset(
+                  iconData[index]['path']!,
+                  fit: BoxFit.contain,
+                  width: 60,
+                  height: 60,
+                ),
               ),
-            ),
-            child: Image.asset(
-              iconData[index]['path']!,
-              fit: BoxFit.contain,
-              width: 60,
-              height: 60,
-            ),
+              const SizedBox(height: 4), // Spacer between the icon and text
+              Text(
+                iconData[index]['name']!, // Display the name under the icon
+                style: const TextStyle(
+                  color: Colors.white, // Set text color to white
+                  fontSize: 12, // Adjust the font size as needed
+                ),
+              ),
+            ],
           );
         },
       ),
@@ -81,6 +100,7 @@ class ExpenseAddPage extends StatelessWidget {
             decoration: const InputDecoration(
               hintText: 'Enter amount',
             ),
+            style: const TextStyle(color: Colors.white),
           ),
           actions: [
             TextButton(

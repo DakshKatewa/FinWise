@@ -54,9 +54,12 @@ class _SignupPageState extends State<SignupPage> {
                   child: TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(
-                      labelText: 'Email',
                       border: OutlineInputBorder(),
                       fillColor: AppColors.lightGreen,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      isDense: false,
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 12.0), // Adjust padding
                     ),
                     validator: validateEmail,
                   ),
@@ -69,9 +72,12 @@ class _SignupPageState extends State<SignupPage> {
                   child: TextFormField(
                     controller: _passwordController,
                     decoration: const InputDecoration(
-                      labelText: 'Password',
                       border: OutlineInputBorder(),
                       fillColor: AppColors.lightGreen,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      isDense: false,
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 12.0), // Adjust padding
                     ),
                     obscureText: true,
                     validator: validatePassword,

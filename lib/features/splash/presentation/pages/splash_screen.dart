@@ -64,9 +64,9 @@ class _SplashScreenState extends State<SplashScreen>
       body: Container(
         width: AppConstants.screenWidth,
         height: AppConstants.screenHeight,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: AppColors.mainGreen,
-          borderRadius: BorderRadius.circular(AppConstants.borderRadius),
+          //borderRadius: BorderRadius.circular(AppConstants.borderRadius),
         ),
         child: SafeArea(
           child: Center(

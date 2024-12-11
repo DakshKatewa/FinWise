@@ -13,7 +13,7 @@ class PreLoginPage extends StatelessWidget {
         height: AppConstants.screenHeight,
         width: AppConstants.screenWidth,
         decoration: const BoxDecoration(
-          color: Color(0xFFF1FFF3),
+          color: AppColors.darkGreen,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +33,7 @@ class PreLoginPage extends StatelessWidget {
                 color: AppColors.mainGreen,
               ),
             ),
-            const SizedBox(height: 26),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Your onPressed function here
@@ -41,8 +41,7 @@ class PreLoginPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(0), // Set to 0 for sharp corners
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 padding: const EdgeInsets.symmetric(
                     horizontal: 24, vertical: 12), // Adjust padding as needed

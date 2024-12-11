@@ -50,13 +50,17 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 200,
+                  width: 300,
                   child: TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(
-                      labelText: 'Email',
+                      hintText: 'enter email',
                       border: OutlineInputBorder(),
                       fillColor: AppColors.lightGreen,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      isDense: false,
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 12.0), // Adjust padding
                     ),
                     validator: validateEmail,
                   ),
@@ -65,13 +69,17 @@ class _LoginPageState extends State<LoginPage> {
                   height: 12,
                 ),
                 SizedBox(
-                  width: 200,
+                  width: 300,
                   child: TextFormField(
                     controller: _passwordController,
                     decoration: const InputDecoration(
-                      labelText: 'Password',
+                      hintText: 'enter password',
                       border: OutlineInputBorder(),
                       fillColor: AppColors.lightGreen,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      isDense: false,
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 12.0), // Adjust padding
                     ),
                     obscureText: true,
                     validator: validatePassword,

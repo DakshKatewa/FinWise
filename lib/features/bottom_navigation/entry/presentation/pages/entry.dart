@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:finwise_application/features/bottom_navigation/add/presentation/provider/transaction_provider.dart'; // Import provider
-import 'package:finwise_application/features/bottom_navigation/add/data/transactions.dart';
+import 'package:finwise_application/features/bottom_navigation/add/presentation/provider/transaction_provider.dart';
 import 'package:intl/intl.dart';
 
 class EntryPage extends StatefulWidget {
@@ -12,14 +11,13 @@ class EntryPage extends StatefulWidget {
 }
 
 class _EntryPageState extends State<EntryPage> {
-  int _selectedIndex = 0; // Keep track of the selected index
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
 
-    // Navigate to the respective page using named routesjhkjhkjhkj
     switch (index) {
       case 0:
         Navigator.pushNamed(context, '/records');
@@ -38,15 +36,23 @@ class _EntryPageState extends State<EntryPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Fetch the list of transactions from the provider
     final transactions = Provider.of<TransactionProvider>(context).transactions;
+
+    // Calculate summary values
+    final totalExpenses = transactions
+        .where((t) => t.isExpense)
+        .fold(0.0, (sum, t) => sum + t.value);
+    final totalIncome = transactions
+        .where((t) => !t.isExpense)
+        .fold(0.0, (sum, t) => sum + t.value);
+    final balance = totalIncome - totalExpenses;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Entry Page'),
+        title: const Text('Money Tracker'),
         leading: Builder(
           builder: (context) => IconButton(
-            icon: const Icon(Icons.menu), // Drawer icon
+            icon: const Icon(Icons.menu),
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
@@ -54,21 +60,145 @@ class _EntryPageState extends State<EntryPage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.calendar_today), // Calendar icon
+            icon: const Icon(Icons.calendar_today),
             onPressed: () async {
               DateTime? selectedDate = await showDatePicker(
                 context: context,
-                initialDate: DateTime.now(), // Default date
-                firstDate: DateTime(2000), // Earliest date
-                lastDate: DateTime(2100), // Latest date
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2100),
               );
 
               if (selectedDate != null && mounted) {
+                final formattedDate =
+                    DateFormat('yyyy-MM-dd').format(selectedDate);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Selected Date: $selectedDate')),
+                  SnackBar(content: Text('Selected Date: $formattedDate')),
                 );
               }
             },
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            color: Colors.black,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Month Display
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Month',
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                    ),
+                    Text(
+                      DateFormat('MMM').format(DateTime.now()),
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+
+                // Expenses
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Expenses',
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                    ),
+                    Text(
+                      '₹${totalExpenses.toStringAsFixed(2)}',
+                      style: const TextStyle(fontSize: 14, color: Colors.red),
+                    ),
+                  ],
+                ),
+
+                // Income
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Income',
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                    ),
+                    Text(
+                      '₹${totalIncome.toStringAsFixed(2)}',
+                      style: const TextStyle(fontSize: 14, color: Colors.green),
+                    ),
+                  ],
+                ),
+
+                // Balance
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Balance',
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                    ),
+                    Text(
+                      '₹${balance.toStringAsFixed(2)}',
+                      style: const TextStyle(fontSize: 14, color: Colors.white),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: transactions.isEmpty
+                ? const Center(child: Text('No transactions added yet.'))
+                : ListView.builder(
+                    itemCount: transactions.length,
+                    itemBuilder: (context, index) {
+                      final transaction = transactions[index];
+                      return ListTile(
+                        leading: transaction.iconPath.isNotEmpty
+                            ? Image.asset(
+                                transaction.iconPath,
+                                width: 24,
+                                height: 24,
+                                fit: BoxFit.contain,
+                              )
+                            : Icon(
+                                Icons.account_balance_wallet,
+                                color: transaction.isExpense
+                                    ? Colors.red
+                                    : Colors.green,
+                              ),
+                        title: Text(transaction.name),
+                        trailing: Text(
+                          '${transaction.isExpense ? '-' : '+'} ₹${transaction.value.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            color: transaction.isExpense
+                                ? Colors.red
+                                : Colors.green,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
@@ -77,7 +207,7 @@ class _EntryPageState extends State<EntryPage> {
           padding: EdgeInsets.zero,
           children: const <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.green),
+              decoration: BoxDecoration(color: Color(0xFF052224)),
               child: Text(
                 'Menu',
                 style: TextStyle(color: Colors.white, fontSize: 24),
@@ -94,58 +224,27 @@ class _EntryPageState extends State<EntryPage> {
           ],
         ),
       ),
-      body: transactions.isEmpty
-          ? const Center(child: Text('No transactions added yet.'))
-          : ListView.builder(
-              itemCount: transactions.length,
-              itemBuilder: (context, index) {
-                final transaction = transactions[index];
-                return ListTile(
-                  leading: transaction.iconPath.isNotEmpty
-                      ? Image.asset(
-                          transaction
-                              .iconPath, // Load the icon from the asset path
-                          width: 24, // Set the width of the icon
-                          height: 24, // Set the height of the icon
-                          fit: BoxFit.contain, // Make sure the icon scales well
-                        )
-                      : Icon(
-                          Icons
-                              .account_balance_wallet, // Default icon if no iconPath
-                          color:
-                              transaction.isExpense ? Colors.red : Colors.green,
-                        ),
-                  title: Text(transaction.name),
-                  trailing: Text(
-                    '${transaction.isExpense ? '-' : '+'} ₹${transaction.value.toStringAsFixed(2)}', // Use ₹ instead of $
-                    style: TextStyle(
-                      color: transaction.isExpense ? Colors.red : Colors.green,
-                    ),
-                  ),
-                );
-              },
-            ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        onTap: _onItemTapped, // Trigger navigation on tap
+        onTap: _onItemTapped,
         backgroundColor: Colors.green.shade100,
         selectedItemColor: Colors.green,
         unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.folder), // Records icon
+            icon: Icon(Icons.folder),
             label: 'Records',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.pie_chart), // Charts icon
+            icon: Icon(Icons.pie_chart),
             label: 'Charts',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle), // Add (+) icon
+            icon: Icon(Icons.add_circle),
             label: 'Add',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.description), // Reports icon
+            icon: Icon(Icons.description),
             label: 'Reports',
           ),
         ],

@@ -1,5 +1,6 @@
 // lib/main.dart
 import 'package:finwise_application/config/routes/app_routes.dart';
+import 'package:finwise_application/core/themes/app_themes.dart';
 import 'package:finwise_application/features/auth/presentation/pages/auth_pages/pre_login.dart';
 import 'package:finwise_application/features/splash/presentation/pages/splash_screen.dart';
 import 'package:finwise_application/features/auth/presentation/pages/unknownpages/error_page.dart';
@@ -17,9 +18,9 @@ void main() async {
   );
 
   runApp(
-      ChangeNotifierProvider(
+    ChangeNotifierProvider(
       create: (_) => TransactionProvider(),
-      child:const MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -32,13 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FinWise',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.mainGreen,
-          primary: AppColors.mainGreen,
-        ),
-        useMaterial3: true,
-      ),
+      theme: appTheme,
       initialRoute: '/',
       routes: AppRoutes.getRoutes(),
       // onGenerateRoute: (settings) {
